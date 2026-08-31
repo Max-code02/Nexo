@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --gold: #facc15;
+    --gold-glow: rgba(250, 204, 21, 0.4);
+    --dark-bg: #07080c;
+    --dark-card: #0e1017;
+    --dark-border: rgba(250, 204, 21, 0.25);
+  }
+
+  body {
+    background-color: #07080c;
+    color: #f4f4f5;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1, h2, h3, .font-gaming {
+    font-family: 'Chakra Petch', 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .font-hero {
+    font-family: 'Teko', 'Chakra Petch', sans-serif;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Custom Gaming Aesthetics */
+.nexo-border {
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  background: linear-gradient(180deg, rgba(20, 24, 33, 0.85) 0%, rgba(10, 12, 17, 0.95) 100%);
+  backdrop-filter: blur(12px);
+  position: relative;
+}
+
+.nexo-border:hover {
+  border-color: rgba(250, 204, 21, 0.7);
+  box-shadow: 0 0 25px rgba(250, 204, 21, 0.25), inset 0 0 20px rgba(250, 204, 21, 0.05);
+}
+
+.nexo-border-active {
+  border: 1.5px solid #facc15;
+  box-shadow: 0 0 30px rgba(250, 204, 21, 0.35), inset 0 0 25px rgba(250, 204, 21, 0.1);
+}
+
+.gold-glow-text {
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.6), 0 0 40px rgba(234, 179, 8, 0.3);
+}
+
+.subtle-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(250, 204, 21, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(250, 204, 21, 0.04) 1px, transparent 1px);
+}
+
+.hexagon-badge {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.nexo-cut-corner {
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes floatParticles {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 0.4; }
+  50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+  100% { transform: translateY(0px) rotate(360deg); opacity: 0.4; }
+}
+
+.animate-float-slow {
+  animation: floatParticles 8s ease-in-out infinite;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "NEXO Gaming Community",
+  "description": "Offizielle Website der NEXO Gaming Community – Finde Mitspieler, nimm an Turnieren und Events teil und werde Teil unseres Teams auf Discord.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

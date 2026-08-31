@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { NexoLogo } from './NexoLogo';
 import { COMMUNITY_INFO } from '../data/communityData';
-import { Volume2, VolumeX, Menu, X, Sparkles, ExternalLink } from 'lucide-react';
+import { useDiscordStats } from '../context/DiscordStatsContext';
+import { Volume2, VolumeX, Sparkles, ExternalLink, Radio, Menu, X } from 'lucide-react';
 import { playUiSound, toggleSound, isSoundEnabled } from '../utils/audio';
 
 interface NavbarProps {
   onOpenRules: () => void;
   onOpenApply: () => void;
+  onOpenDiscordLive?: () => void;
   onNavigate?: (id: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenRules, onOpenApply, onNavigate }) => {
+export const Navbar: React.FC<NavbarProps> = ({ 
+  onOpenRules, 
+  onOpenApply, 
+  onOpenDiscordLive,
+  onNavigate 
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
+  const { isLive, memberCount, onlineCount } = useDiscordStats();
 
   const handleSoundToggle = () => {
     const nextState = toggleSound();
@@ -81,19 +89,29 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenRules, onOpenApply, onNavi
         {/* Right Action Bar */}
         <div className="hidden md:flex items-center gap-3">
           {/* Live Status Badge */}
-          <div
+          <button
+            type="button"
             id="discord-live-stats"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/80 border border-amber-400/30 text-xs text-zinc-300 font-mono shadow-[0_0_10px_rgba(250,204,21,0.1)]"
-            title="Aktive Community Mitglieder"
+            onClick={() => {
+              playUiSound('click');
+              if (onOpenDiscordLive) onOpenDiscordLive();
+            }}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 hover:bg-zinc-800 border border-amber-400/40 hover:border-amber-400 text-xs text-zinc-300 font-mono shadow-[0_0_10px_rgba(250,204,21,0.15)] transition-all cursor-pointer group"
+            title="Klicken für Discord Live-Status Details"
           >
             <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isLive ? 'bg-emerald-400' : 'bg-amber-400'} opacity-75`}></span>
+              <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isLive ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
             </span>
-            <span className="font-bold text-emerald-400">{COMMUNITY_INFO.stats.onlineMembers}</span>
+            <span className="font-bold text-emerald-400">{onlineCount}</span>
             <span className="text-zinc-500">/</span>
-            <span className="text-amber-400 font-semibold">{COMMUNITY_INFO.stats.members} Mitglieder</span>
-          </div>
+            <span className="text-amber-400 font-semibold">{memberCount} Mitglieder</span>
+            {isLive && (
+              <span className="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.2 rounded border border-emerald-500/40 font-bold uppercase hidden xl:inline">
+                LIVE
+              </span>
+            )}
+          </button>
 
           {/* Audio Toggle */}
           <button

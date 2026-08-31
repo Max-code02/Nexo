@@ -16,25 +16,30 @@ import {
   Send,
   Radio,
   Lock,
-  ExternalLink
+  ExternalLink,
+  RefreshCw
 } from 'lucide-react';
 import { DISCORD_CHANNELS, UPCOMING_EVENTS, COMMUNITY_INFO } from '../data/communityData';
+import { useDiscordStats } from '../context/DiscordStatsContext';
 import { playUiSound } from '../utils/audio';
 import { ChatRedirectModal } from './Modals';
 
 interface DiscordMockupProps {
   onOpenRules: () => void;
   onOpenTicket: () => void;
+  onOpenDiscordLive?: () => void;
   onSelectEvent: (eventId: string) => void;
 }
 
 export const DiscordMockup: React.FC<DiscordMockupProps> = ({
   onOpenRules,
   onOpenTicket,
+  onOpenDiscordLive,
   onSelectEvent,
 }) => {
   const [activeChannelId, setActiveChannelId] = useState<string>('c1');
   const [showChatRedirectModal, setShowChatRedirectModal] = useState<boolean>(false);
+  const { isLive, memberCount, onlineCount, serverName, serverIconUrl } = useDiscordStats();
   const [chatMessages, setChatMessages] = useState<Array<{ id: string; user: string; avatarBg: string; role: string; time: string; text: string; isStaff?: boolean }>>([
     {
       id: 'm1',
@@ -90,10 +95,19 @@ export const DiscordMockup: React.FC<DiscordMockupProps> = ({
           <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
           <span className="text-xs text-zinc-400 font-mono ml-2 hidden sm:inline">discord.com/app/nexo</span>
         </div>
-        <div className="flex items-center gap-2 text-xs font-['Chakra_Petch'] text-amber-400 font-bold tracking-wider">
-          <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-          SERVER LIVE STATUS
-        </div>
+        <button
+          type="button"
+          onClick={() => {
+            playUiSound('click');
+            if (onOpenDiscordLive) onOpenDiscordLive();
+          }}
+          className="flex items-center gap-2 text-xs font-['Chakra_Petch'] text-amber-400 font-bold tracking-wider hover:text-amber-300 transition-colors cursor-pointer group"
+          title="Klicken für Live-Status"
+        >
+          <Radio className={`w-3.5 h-3.5 ${isLive ? 'text-emerald-400 animate-pulse' : 'text-amber-400'}`} />
+          <span>{isLive ? 'DISCORD LIVE SYNC' : 'SERVER STATUS'}</span>
+          <span className="text-[10px] text-zinc-500 font-mono group-hover:text-zinc-300">⚙️</span>
+        </button>
       </div>
 
       {/* Main Grid: Sidebar + Content */}
@@ -103,27 +117,35 @@ export const DiscordMockup: React.FC<DiscordMockupProps> = ({
           <div>
             {/* Server Badge in Poster Style */}
             <div className="p-3 mb-3 rounded-xl bg-gradient-to-r from-amber-400/10 via-yellow-400/5 to-transparent border border-amber-400/30 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-black border border-amber-400/60 flex items-center justify-center shadow-[0_0_12px_rgba(250,204,21,0.4)] flex-shrink-0">
-                <svg viewBox="0 0 100 100" className="w-6 h-6">
-                  <path
-                    d="M56 18 L32 52 L50 52 L42 82 L70 46 L52 46 Z"
-                    fill="#facc15"
-                  />
-                </svg>
-              </div>
+              {serverIconUrl ? (
+                <img
+                  src={serverIconUrl}
+                  alt={serverName}
+                  className="w-10 h-10 rounded-lg border border-amber-400/60 object-cover shadow-[0_0_12px_rgba(250,204,21,0.4)] flex-shrink-0"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-lg bg-black border border-amber-400/60 flex items-center justify-center shadow-[0_0_12px_rgba(250,204,21,0.4)] flex-shrink-0">
+                  <svg viewBox="0 0 100 100" className="w-6 h-6">
+                    <path
+                      d="M56 18 L32 52 L50 52 L42 82 L70 46 L52 46 Z"
+                      fill="#facc15"
+                    />
+                  </svg>
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-extrabold text-white text-base tracking-wide font-['Chakra_Petch']">
-                    NEXO
+                  <h4 className="font-extrabold text-white text-base tracking-wide font-['Chakra_Petch'] truncate">
+                    {serverName}
                   </h4>
-                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-500/40 flex items-center gap-1">
+                  <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-500/40 flex items-center gap-1 flex-shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    ONLINE
+                    {onlineCount} ON
                   </span>
                 </div>
                 <p className="text-[11px] text-zinc-400 flex items-center gap-1 mt-0.5">
                   <Users className="w-3 h-3 text-amber-400" />
-                  <span className="text-amber-300 font-semibold">{COMMUNITY_INFO.stats.members}</span> Mitglieder
+                  <span className="text-amber-300 font-semibold">{memberCount}</span> Mitglieder
                 </p>
               </div>
             </div>

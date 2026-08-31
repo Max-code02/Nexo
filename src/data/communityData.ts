@@ -8,8 +8,8 @@ export const COMMUNITY_INFO = {
   description: 'NEXO ist mehr als nur ein Discord Server – wir sind eine Community! Bei uns findest du Mitspieler für deine Lieblingsspiele, spannende Turniere, ein engagiertes Team und eine offene, freundliche Atmosphäre.',
   quote: 'Du musst nicht perfekt sein – wichtig ist, dass du Bock hast, etwas zu bewegen!',
   motto: 'GEMEINSAM. AKTIV. STARK. NEXO.',
-  discordInviteCode: 'MRCC6XSVWG',
-  discordInviteUrl: 'https://discord.gg/MRCC6XSVWG',
+  discordInviteCode: 'gj4VUe85',
+  discordInviteUrl: 'https://discord.gg/gj4VUe85',
   teamContactDiscord: 'niko_0903',
   stats: {
     members: 534,

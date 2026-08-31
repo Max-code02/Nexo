@@ -10,6 +10,8 @@ import { HighlightBar } from './components/HighlightBar';
 import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { RulesModal, TicketModal, ApplyModal } from './components/Modals';
+import { DiscordLiveModal } from './components/DiscordLiveModal';
+import { DiscordStatsProvider } from './context/DiscordStatsContext';
 import { CollapsibleTopic } from './components/CollapsibleTopic';
 import { 
   Zap, 
@@ -31,6 +33,7 @@ export default function App() {
   const [rulesModalOpen, setRulesModalOpen] = useState(false);
   const [ticketModalOpen, setTicketModalOpen] = useState(false);
   const [applyModalOpen, setApplyModalOpen] = useState(false);
+  const [discordLiveModalOpen, setDiscordLiveModalOpen] = useState(false);
   const [applyRole, setApplyRole] = useState<string>('MODERATION');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
@@ -121,23 +124,26 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#07080c] text-zinc-100 selection:bg-amber-400 selection:text-black flex flex-col font-sans relative overflow-x-hidden">
-      {/* Sticky Top Navbar */}
-      <Navbar
-        onOpenRules={() => setRulesModalOpen(true)}
-        onOpenApply={() => handleOpenApply()}
-        onNavigate={handleOpenTopic}
-      />
-
-      {/* Main Content */}
-      <main className="flex-1">
-        {/* 1. Hero Section + Discord Server Preview Widget */}
-        <HeroSection
+    <DiscordStatsProvider>
+      <div className="min-h-screen bg-[#07080c] text-zinc-100 selection:bg-amber-400 selection:text-black flex flex-col font-sans relative overflow-x-hidden">
+        {/* Sticky Top Navbar */}
+        <Navbar
           onOpenRules={() => setRulesModalOpen(true)}
-          onOpenTicket={() => setTicketModalOpen(true)}
           onOpenApply={() => handleOpenApply()}
-          onSelectEvent={handleSelectEvent}
+          onOpenDiscordLive={() => setDiscordLiveModalOpen(true)}
+          onNavigate={handleOpenTopic}
         />
+
+        {/* Main Content */}
+        <main className="flex-1">
+          {/* 1. Hero Section + Discord Server Preview Widget */}
+          <HeroSection
+            onOpenRules={() => setRulesModalOpen(true)}
+            onOpenTicket={() => setTicketModalOpen(true)}
+            onOpenApply={() => handleOpenApply()}
+            onOpenDiscordLive={() => setDiscordLiveModalOpen(true)}
+            onSelectEvent={handleSelectEvent}
+          />
 
         {/* 2. TOPICS ACCORDION HUB / THEMEN-ÜBERSICHT */}
         <section id="themen-hub" className="py-12 md:py-16 relative bg-[#07090e] border-t border-amber-400/20">
@@ -281,7 +287,7 @@ export default function App() {
                 id="join"
                 topicNumber="05"
                 title="Dein Weg zu NEXO: Join Us!"
-                subtitle="discord.gg/MRCC6XSVWG – Tritt sofort über 534 Gaming-Begeisterten bei"
+                subtitle="discord.gg/gj4VUe85 – Tritt sofort unserer aktiven Gaming-Community bei"
                 icon={<Radio className="w-6 h-6" />}
                 badge="Invite Code"
                 isOpen={openSections.join}
@@ -335,6 +341,12 @@ export default function App() {
         initialRole={applyRole}
         onClose={() => setApplyModalOpen(false)}
       />
+
+      <DiscordLiveModal
+        isOpen={discordLiveModalOpen}
+        onClose={() => setDiscordLiveModalOpen(false)}
+      />
     </div>
+  </DiscordStatsProvider>
   );
 }

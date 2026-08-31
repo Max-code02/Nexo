@@ -2,7 +2,8 @@ import React from 'react';
 import { NexoLogo } from './NexoLogo';
 import { DiscordMockup } from './DiscordMockup';
 import { COMMUNITY_INFO } from '../data/communityData';
-import { Sparkles, Users, ArrowRight, Zap, Copy, Check } from 'lucide-react';
+import { useDiscordStats } from '../context/DiscordStatsContext';
+import { Sparkles, Users, ArrowRight, Zap, Copy, Check, Radio } from 'lucide-react';
 import { playUiSound } from '../utils/audio';
 import confetti from 'canvas-confetti';
 
@@ -10,6 +11,7 @@ interface HeroSectionProps {
   onOpenRules: () => void;
   onOpenTicket: () => void;
   onOpenApply: () => void;
+  onOpenDiscordLive?: () => void;
   onSelectEvent: (eventId: string) => void;
 }
 
@@ -17,9 +19,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenRules,
   onOpenTicket,
   onOpenApply,
+  onOpenDiscordLive,
   onSelectEvent,
 }) => {
   const [copied, setCopied] = React.useState(false);
+  const { isLive, memberCount, onlineCount, inviteCode } = useDiscordStats();
 
   const handleCopyInvite = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -170,20 +174,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* Quick Metrics Bar */}
             <div className="grid grid-cols-3 gap-3 pt-4 border-t border-zinc-800/80">
-              <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800">
-                <div className="text-xl sm:text-2xl font-black font-['Chakra_Petch'] text-amber-400">
-                  {COMMUNITY_INFO.stats.members}+
+              <button
+                type="button"
+                onClick={() => {
+                  playUiSound('click');
+                  if (onOpenDiscordLive) onOpenDiscordLive();
+                }}
+                className="p-3 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 hover:border-amber-400/50 transition-all text-left group cursor-pointer"
+              >
+                <div className="text-xl sm:text-2xl font-black font-['Chakra_Petch'] text-amber-400 group-hover:text-amber-300 transition-colors">
+                  {memberCount}
                 </div>
-                <div className="text-[11px] text-zinc-400 font-medium">Mitglieder</div>
-              </div>
-              <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800">
+                <div className="text-[11px] text-zinc-400 font-medium flex items-center justify-between">
+                  <span>Mitglieder</span>
+                  {isLive && <span className="text-[9px] text-emerald-400 font-mono">● LIVE</span>}
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  playUiSound('click');
+                  if (onOpenDiscordLive) onOpenDiscordLive();
+                }}
+                className="p-3 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 hover:border-emerald-400/50 transition-all text-left group cursor-pointer"
+              >
                 <div className="text-xl sm:text-2xl font-black font-['Chakra_Petch'] text-emerald-400 flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  {COMMUNITY_INFO.stats.onlineMembers}
+                  {onlineCount}
                 </div>
-                <div className="text-[11px] text-zinc-400 font-medium">Online & Zocken</div>
-              </div>
-              <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800">
+                <div className="text-[11px] text-zinc-400 font-medium flex items-center justify-between">
+                  <span>Online & Zocken</span>
+                  {isLive && <span className="text-[9px] text-emerald-400 font-mono">ECHTZEIT</span>}
+                </div>
+              </button>
+
+              <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800">
                 <div className="text-xl sm:text-2xl font-black font-['Chakra_Petch'] text-yellow-300">
                   {COMMUNITY_INFO.stats.tournamentsHosted}+
                 </div>
@@ -201,6 +227,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <DiscordMockup
                 onOpenRules={onOpenRules}
                 onOpenTicket={onOpenTicket}
+                onOpenDiscordLive={onOpenDiscordLive}
                 onSelectEvent={onSelectEvent}
               />
             </div>

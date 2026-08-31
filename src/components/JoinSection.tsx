@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { COMMUNITY_INFO } from '../data/communityData';
+import { useDiscordStats } from '../context/DiscordStatsContext';
 import { Sparkles, Copy, Check, ExternalLink, QrCode, Shield, Users, Trophy } from 'lucide-react';
 import { playUiSound } from '../utils/audio';
 import confetti from 'canvas-confetti';
@@ -7,9 +8,11 @@ import confetti from 'canvas-confetti';
 export const JoinSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const { inviteCode } = useDiscordStats();
+  const currentInviteUrl = `https://discord.gg/${inviteCode}`;
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(COMMUNITY_INFO.discordInviteUrl);
+    navigator.clipboard.writeText(currentInviteUrl);
     setCopied(true);
     playUiSound('success');
     try {
@@ -103,10 +106,10 @@ export const JoinSection: React.FC = () => {
 
             {/* Right Side: Glowing Link Button & Actions */}
             <div className="lg:col-span-5 flex flex-col items-center lg:items-end gap-3.5">
-              {/* Massive Glowing Invite Pill (Matching poster: DISCORD.GG/MRCC6XSVWG) */}
+              {/* Massive Glowing Invite Pill (DISCORD.GG/gj4VUe85) */}
               <a
                 id="btn-discord-invite-pill"
-                href={COMMUNITY_INFO.discordInviteUrl}
+                href={currentInviteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => playUiSound('join')}
@@ -114,7 +117,7 @@ export const JoinSection: React.FC = () => {
               >
                 <span className="text-black font-extrabold flex items-center gap-2">
                   <ExternalLink className="w-5 h-5" />
-                  DISCORD.GG/{COMMUNITY_INFO.discordInviteCode}
+                  DISCORD.GG/{inviteCode}
                 </span>
                 <div className="absolute inset-0 bg-white/30 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </a>

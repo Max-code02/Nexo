@@ -33,6 +33,7 @@ export interface DiscordChannel {
 
 export interface RuleItem {
   number: number;
+  emoji?: string;
   title: string;
   description: string;
   severity: 'Info' | 'Wichtig' | 'Kritisch';

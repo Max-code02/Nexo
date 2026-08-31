@@ -76,8 +76,9 @@ export const RulesModal: React.FC<RulesModalProps> = ({ isOpen, onClose }) => {
               className="p-3.5 sm:p-4 rounded-xl bg-zinc-900/80 border border-zinc-800 hover:border-amber-400/50 transition-colors"
             >
               <div className="flex items-center justify-between mb-1.5 gap-2">
-                <span className="font-extrabold font-['Chakra_Petch'] text-amber-400 uppercase text-xs sm:text-sm">
-                  §{rule.number} {rule.title}
+                <span className="font-extrabold font-['Chakra_Petch'] text-amber-400 uppercase text-xs sm:text-sm flex items-center gap-2">
+                  {rule.emoji && <span className="text-base">{rule.emoji}</span>}
+                  <span>§{rule.number} {rule.title}</span>
                 </span>
                 <span
                   className={`text-[9px] sm:text-[10px] font-mono font-bold px-2 py-0.5 rounded flex-shrink-0 ${
@@ -94,6 +95,12 @@ export const RulesModal: React.FC<RulesModalProps> = ({ isOpen, onClose }) => {
               <p className="text-zinc-300 leading-relaxed text-xs sm:text-sm">{rule.description}</p>
             </div>
           ))}
+
+          {/* Server Accept Notice */}
+          <div className="p-3.5 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center gap-2.5 text-xs text-amber-300 font-medium">
+            <span className="text-base">📌</span>
+            <span>Mit dem Betreten des Discord Servers akzeptierst du diese Regeln vollumfänglich.</span>
+          </div>
         </div>
 
         {/* Footer */}

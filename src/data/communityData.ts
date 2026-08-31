@@ -117,11 +117,62 @@ export const DISCORD_CHANNELS: DiscordChannel[] = [
 ];
 
 export const SERVER_RULES: RuleItem[] = [
-  { number: 1, title: 'Respektvoller Umgang', description: 'Behandle alle Mitglieder mit Respekt. Beleidigungen, Diskriminierung, toxisches Verhalten oder Mobbing werden nicht geduldet.', severity: 'Kritisch' },
-  { number: 2, title: 'Kein Spam & Fremdwerbung', description: 'Unerlaubte Werbung für andere Server, Produkte oder ständiges Spammen in Chats und Voice-Channels ist untersagt.', severity: 'Wichtig' },
-  { number: 3, title: 'Angemessene Kanalnutzung', description: 'Nutze die Kanäle gemäß ihrer Beschreibung (z.B. Memes in #memes, Gruppensuche in #suche-gruppe).', severity: 'Info' },
-  { number: 4, title: 'Kein Cheating / Hacking', description: 'Die Verbreitung von Hacks, Cheats oder schädlicher Software führt zum sofortigen permanenten Ausschluss.', severity: 'Kritisch' },
-  { number: 5, title: 'Anweisungen des Staff-Teams', description: 'Den Anweisungen der Moderatoren und Administratoren ist jederzeit Folge zu leisten.', severity: 'Wichtig' },
+  {
+    number: 1,
+    emoji: '🤝',
+    title: 'Respekt',
+    description: 'Behandle alle Mitglieder respektvoll. Beleidigungen, Mobbing und Diskriminierung sind nicht erlaubt.',
+    severity: 'Kritisch'
+  },
+  {
+    number: 2,
+    emoji: '🚫',
+    title: 'Kein Spam',
+    description: 'Kein Spam, Flooding, unnötiges Pingen oder Werbung ohne Erlaubnis.',
+    severity: 'Wichtig'
+  },
+  {
+    number: 3,
+    emoji: '🔞',
+    title: 'Keine unangemessenen Inhalte',
+    description: 'Keine pornografischen, extremistischen, gewaltverherrlichenden oder illegalen Inhalte.',
+    severity: 'Kritisch'
+  },
+  {
+    number: 4,
+    emoji: '📢',
+    title: 'Werbung',
+    description: 'Werbung für andere Server, Social-Media-Accounts oder Projekte nur in dafür vorgesehenen Channels bzw. mit Erlaubnis des Teams.',
+    severity: 'Wichtig'
+  },
+  {
+    number: 5,
+    emoji: '🎙️',
+    title: 'Voice-Chats',
+    description: 'Kein Soundboard-Spam, Schreien, Stören oder absichtliches Trollen.',
+    severity: 'Wichtig'
+  },
+  {
+    number: 6,
+    emoji: '🛡️',
+    title: 'Team respektieren',
+    description: 'Anweisungen des Teams sind zu beachten. Bei Problemen könnt ihr euch jederzeit an das Team wenden.',
+    severity: 'Wichtig'
+  },
+  {
+    number: 7,
+    emoji: '⚠️',
+    title: 'Konsequenzen',
+    description: 'Regelverstöße können je nach Situation zu Verwarnungen, Mutes, Kicks oder Bans führen.',
+    severity: 'Kritisch'
+  },
+  {
+    number: 8,
+    emoji: '❤️',
+    title: 'Habt Spaß!',
+    description: 'Seid freundlich, bleibt fair und sorgt gemeinsam für eine gute Community!',
+    severity: 'Info'
+  },
 ];
 
 export const INITIAL_LFG_POSTS: LFGPost[] = [
